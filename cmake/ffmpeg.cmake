@@ -41,7 +41,7 @@ function(find_ffmpeg_version FFMPEG_VERSION_INCLUDE_DIR VERSION_VAR)
     endif()
 endfunction()
 
-
+set(CMAKE_FIND_ROOT_PATH /)
 if(DEFINED ENV{FFMPEG_ROOT_PATH})
     set(FFMPEG_LIBRARY_DIR $ENV{FFMPEG_ROOT_PATH}/lib)
     set(FFMPEG_INCLUDE_DIR $ENV{FFMPEG_ROOT_PATH}/include)
@@ -56,7 +56,7 @@ endif()
 if(FFMPEG_LIBRARY_DIR AND FFMPEG_INCLUDE_DIR)
     message(STATUS "find FFmpeg, FFMPEG_INCLUDE_DIR:" ${FFMPEG_INCLUDE_DIR} ", FFMPEG_LIBRARY_DIR:" ${FFMPEG_LIBRARY_DIR})
     function(define_ffmpeg_target)
-        find_library(LIBRARY ${ARGV0} HINTS ${FFMPEG_LIBRARY_DIR})
+        find_library(LIBRARY ${ARGV0} PATHS ${FFMPEG_LIBRARY_DIR} NO_DEFAULT_PATH NO_CACHE)
         if(LIBRARY)
             add_library(ffmpeg::${ARGV0} INTERFACE IMPORTED GLOBAL)
             set_property(TARGET ffmpeg::${ARGV0} PROPERTY INTERFACE_INCLUDE_DIRECTORIES

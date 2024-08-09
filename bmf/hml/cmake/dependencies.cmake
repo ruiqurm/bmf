@@ -71,21 +71,22 @@ list(APPEND HMP_CORE_PUB_DEPS optional)
 
 
 #### spdlog
-if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Android|iOS")
-    if (HMP_LOCAL_DEPENDENCIES)
-        add_subdirectory(third_party/spdlog)
-        set_target_properties(spdlog PROPERTIES
-                C_VISIBILITY_PRESET hidden
-                CXX_VISIBILITY_PRESET hidden
-        )
-        list(APPEND HMP_CORE_PRI_DEPS spdlog)
-    else ()
-        find_package(spdlog REQUIRED)
-        add_library(spdlog ALIAS spdlog::spdlog)
-        list(APPEND HMP_CORE_PUB_DEPS spdlog)
-    endif()
+# TODO:
+# if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Android|iOS")
+#     if (HMP_LOCAL_DEPENDENCIES)
+#         add_subdirectory(third_party/spdlog)
+#         set_target_properties(spdlog PROPERTIES
+#                 C_VISIBILITY_PRESET hidden
+#                 CXX_VISIBILITY_PRESET hidden
+#         )
+#         list(APPEND HMP_CORE_PRI_DEPS spdlog)
+#     else ()
+#         find_package(spdlog REQUIRED)
+#         add_library(spdlog ALIAS spdlog::spdlog)
+#         list(APPEND HMP_CORE_PUB_DEPS spdlog)
+#     endif()
 
-endif()
+# endif()
 
 #### dlpack
 if (NOT HMP_LOCAL_DEPENDENCIES)
@@ -98,7 +99,8 @@ if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Android|iOS")
     if (HMP_LOCAL_DEPENDENCIES)
         find_library(LIBDW dw)
         if("${LIBDW}" MATCHES "LIBDW-NOTFOUND")
-            set(STACK_DETAILS_BFD TRUE)
+            # set(STACK_DETAILS_BFD TRUE)
+            set(STACK_DETAILS_DWARF TRUE)
             set(STACK_DETAILS_AUTO_DETECT FALSE)
         endif()
 
@@ -175,10 +177,11 @@ endif()
 
 ##### Benchmark
 if (HMP_LOCAL_DEPENDENCIES)
-    set(BENCHMARK_ENABLE_TESTING OFF)
-    set(BENCHMARK_ENABLE_INSTALL OFF)
-    set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-    add_subdirectory(third_party/benchmark)
+    # TODO:
+    # set(BENCHMARK_ENABLE_TESTING OFF)
+    # set(BENCHMARK_ENABLE_INSTALL OFF)
+    # set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+    # add_subdirectory(third_party/benchmark)
 else ()
     find_package(benchmark REQUIRED)
 endif()

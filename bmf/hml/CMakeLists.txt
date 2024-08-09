@@ -16,15 +16,15 @@ endif()
 
 ### options
 option(HMP_LOCAL_DEPENDENCIES "Build dependencies locally" ON)
-option(HMP_ENABLE_CUDA "Enable CUDA device support" ON)
+option(HMP_ENABLE_CUDA "Enable CUDA device support" OFF)
 option(HMP_ENABLE_FFMPEG "Enable FFMEPG support" ON)
-option(HMP_ENABLE_OPENCV "Enable OpenCV support" ON)
+option(HMP_ENABLE_OPENCV "Enable OpenCV support" OFF)
 option(HMP_ENABLE_NPP "Enable NPP support" OFF)
-option(HMP_STATIC_LINK_CUDA "Using static cuda libs" ON)
-option(HMP_ENABLE_OPENMP "Enable OPENMP support" ON)
-option(HMP_ENABLE_TORCH "Enable Troch support" ON)
-option(HMP_ENABLE_PYTHON "Enable Python support" ON)
-option(HMP_ENABLE_JNI "Enable build with JNI support" ON)
+option(HMP_STATIC_LINK_CUDA "Using static cuda libs" OFF)
+option(HMP_ENABLE_OPENMP "Enable OPENMP support" OFF)
+option(HMP_ENABLE_TORCH "Enable Troch support" OFF)
+option(HMP_ENABLE_PYTHON "Enable Python support" OFF)
+option(HMP_ENABLE_JNI "Enable build with JNI support" OFF)
 option(HMP_ENABLE_MOBILE "Enable build for mobile device" OFF)
 
 if (HMP_ENABLE_CUDA)
@@ -57,8 +57,8 @@ endif()
 
 include(cmake/dependencies.cmake)
 
-## 
-enable_testing()
+## TODO:
+# enable_testing()
 
 ### 
 configure_file(
@@ -76,9 +76,9 @@ if(HMP_ENABLE_JNI)
     add_subdirectory(java)
 endif()
 
-if(NOT HMP_ENABLE_MOBILE AND NOT WIN32)
-    add_subdirectory(perf)
-endif()
+# if(NOT HMP_ENABLE_MOBILE AND NOT WIN32)
+#     add_subdirectory(perf)
+# endif()
 
 if(IOS)
     add_subdirectory(object-c)
