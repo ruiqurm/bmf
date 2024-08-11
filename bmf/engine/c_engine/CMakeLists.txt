@@ -17,7 +17,7 @@ if(BMF_ENABLE_MOBILE)
     list(FILTER SRCS EXCLUDE REGEX connector_capi)
 endif()
 
-add_library(engine ${SRCS} ${HDRS})
+add_library(engine STATIC ${SRCS} ${HDRS})
 
 target_compile_definitions(engine PRIVATE BMF_BUILD_SHARED_ENGINE)
 

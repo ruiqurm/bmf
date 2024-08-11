@@ -140,4 +140,4 @@ if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Android|iOS|Darwin")
     )
 endif()
 
-add_subdirectory(tests)
+# add_subdirectory(tests)

@@ -174,7 +174,7 @@ int SchedulerQueue::start() {
 #if __APPLE__
     pthread_setname_np(thread_name.c_str());
 #elif !defined(_WIN32)
-    pthread_setname_np(handle, thread_name.c_str());
+    // pthread_setname_np(handle, thread_name.c_str());
 #else // WIN32
     typedef HRESULT(WINAPI * SETTHREADDESCRIPTION)(HANDLE, PCWSTR);
     auto SetThreadDescription =

@@ -59,7 +59,7 @@ if(BMF_ENABLE_FFMPEG)
              src/audio_resampler.cpp
     )
 
-    add_library(builtin_modules SHARED ${SRCS} ${HDRS})
+    add_library(builtin_modules STATIC ${SRCS} ${HDRS})
     target_include_directories(builtin_modules
         PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/bmf/c_modules/include>
@@ -103,7 +103,7 @@ endif()
 # pass_through module
 set(PASS_THROUGH_HDRS include/pass_through_module.h)
 set(PASS_THROUGH_SRCS src/pass_through_module.cpp)
-add_library(pass_through SHARED ${PASS_THROUGH_HDRS} ${PASS_THROUGH_SRCS})
+add_library(pass_through STATIC ${PASS_THROUGH_HDRS} ${PASS_THROUGH_SRCS})
 target_include_directories(pass_through PUBLIC include)
 target_link_libraries(pass_through PRIVATE bmf_module_sdk)
 set_soname(pass_through)
@@ -113,7 +113,7 @@ module_install(pass_through)
 # clock module
 set(CLOCK_MODULE_HDRS include/clock_module.h include/fraction.hpp)
 set(CLOCK_MODULE_SRCS src/clock_module.cpp)
-add_library(clock SHARED ${CLOCK_MODULE_HDRS} ${CLOCK_MODULE_SRCS})
+add_library(clock STATIC ${CLOCK_MODULE_HDRS} ${CLOCK_MODULE_SRCS})
 target_include_directories(clock PUBLIC include)
 target_link_libraries(clock PRIVATE bmf_module_sdk)
 set_soname(clock)
@@ -123,7 +123,7 @@ module_install(clock)
 # MockDecoder
 set(MOCK_DECODER_MODULE_HDRS include/mock_decoder.h)
 set(MOCK_DECODER_MODULE_SRCS src/mock_decoder.cpp)
-add_library(MockDecoder SHARED ${MOCK_DECODER_MODULE_HDRS} ${MOCK_DECODER_MODULE_SRCS})
+add_library(MockDecoder STATIC ${MOCK_DECODER_MODULE_HDRS} ${MOCK_DECODER_MODULE_SRCS})
 target_include_directories(MockDecoder PUBLIC include)
 target_link_libraries(MockDecoder PRIVATE bmf_module_sdk)
 set_soname(MockDecoder)
@@ -133,7 +133,7 @@ module_install(MockDecoder)
 # GoMockDecoder
 set(GOMOCK_DECODER_MODULE_HDRS include/go_mock_decoder.h)
 set(GOMOCK_DECODER_MODULE_SRCS src/go_mock_decoder.cpp)
-add_library(GoMockDecoder SHARED ${GOMOCK_DECODER_MODULE_HDRS} ${GOMOCK_DECODER_MODULE_SRCS})
+add_library(GoMockDecoder STATIC ${GOMOCK_DECODER_MODULE_HDRS} ${GOMOCK_DECODER_MODULE_SRCS})
 target_include_directories(GoMockDecoder PUBLIC include)
 target_link_libraries(GoMockDecoder PRIVATE bmf_module_sdk)
 set_soname(GoMockDecoder)

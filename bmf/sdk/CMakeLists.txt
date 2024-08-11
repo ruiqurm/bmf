@@ -26,6 +26,7 @@ add_library(bmf_module_sdk
 )
 else()
 add_library(bmf_module_sdk
+    STATIC
     ${CPP_SRCS} ${CPP_HDRS}
 )
 endif()

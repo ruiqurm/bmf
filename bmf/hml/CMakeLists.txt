@@ -54,6 +54,7 @@ endif()
 if(NOT DEFINED BUILD_SHARED_LIBS)
     set(BUILD_SHARED_LIBS TRUE)
 endif()
+set(BUILD_SHARED_LIBS OFF)
 
 include(cmake/dependencies.cmake)
 
