@@ -17,7 +17,7 @@ endif()
 ### options
 option(HMP_LOCAL_DEPENDENCIES "Build dependencies locally" ON)
 option(HMP_ENABLE_CUDA "Enable CUDA device support" OFF)
-option(HMP_ENABLE_FFMPEG "Enable FFMEPG support" ON)
+option(HMP_ENABLE_FFMPEG "Enable FFMEPG support" OFF)
 option(HMP_ENABLE_OPENCV "Enable OpenCV support" OFF)
 option(HMP_ENABLE_NPP "Enable NPP support" OFF)
 option(HMP_STATIC_LINK_CUDA "Using static cuda libs" OFF)
@@ -26,7 +26,6 @@ option(HMP_ENABLE_TORCH "Enable Troch support" OFF)
 option(HMP_ENABLE_PYTHON "Enable Python support" OFF)
 option(HMP_ENABLE_JNI "Enable build with JNI support" OFF)
 option(HMP_ENABLE_MOBILE "Enable build for mobile device" OFF)
-
 if (HMP_ENABLE_CUDA)
     # For FindCUDAToolkit support
     cmake_minimum_required(VERSION 3.17 FATAL_ERROR)

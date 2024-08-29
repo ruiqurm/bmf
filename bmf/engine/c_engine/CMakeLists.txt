@@ -18,8 +18,10 @@ if(BMF_ENABLE_MOBILE)
 endif()
 
 add_library(engine STATIC ${SRCS} ${HDRS})
-
-target_compile_definitions(engine PRIVATE BMF_BUILD_SHARED_ENGINE)
+# set_property(TARGET engine PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
+# target_link_options(engine PRIVATE "-sSIDE_MODULE")
+# target_compile_options(engine PRIVATE "-sSIDE_MODULE")
+# target_compile_definitions(engine PRIVATE BMF_BUILD_SHARED_ENGINE)
 
 if(WIN32)
     set_target_properties(engine PROPERTIES
@@ -43,7 +45,7 @@ if(BMF_ENABLE_BREAKPAD)
 endif()
 target_link_libraries(engine
     PRIVATE
-        bmf_module_sdk
+    bmf_module_sdk
 )
 
 if(NOT APPLE AND NOT ANDROID)
@@ -103,7 +105,7 @@ if(BMF_ENABLE_PYTHON)
     endif()
 endif()
 
-add_library(bmf_go_loader SHARED src/loader/go_module_loader.cpp)
+add_library(bmf_go_loader STATIC src/loader/go_module_loader.cpp)
 target_link_libraries(bmf_go_loader
     PRIVATE
     bmf_module_sdk)

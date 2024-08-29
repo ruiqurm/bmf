@@ -65,6 +65,8 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         set(CMAKE_CXX_FLAGS "-D__STDC_FORMAT_MACROS -Wno-deprecated-declarations -Wl,-z,defs ${CMAKE_COVERAGE_FLAGS} ${CMAKE_CXX_FLAGS}") #report unresolved symbols
     endif()
 endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions -fPIC")
+set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     # C4068: unknown pragma
@@ -125,6 +127,20 @@ add_subdirectory(bmf)
 
 ## set (CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGSa} -Wl,--export-dynamic")
 
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+execute_process(COMMAND ${CMAKE_CXX_COMPILER} --cflags
+    OUTPUT_VARIABLE EM_CFLAGS
+    COMMAND_ERROR_IS_FATAL ANY
+)
+string(STRIP "${EM_CFLAGS}" EM_CFLAGS)
+find_package(Python3 REQUIRED)
+message("Python: ${Python3_EXECUTABLE}")
+set(ENV{EXTRA_FLAGS} "${EM_CFLAGS}")
+execute_process(
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/fix_compile_commands.py --watcher
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
 ### print build configurations
 include(cmake/summary.cmake)

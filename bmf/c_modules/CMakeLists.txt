@@ -59,7 +59,10 @@ if(BMF_ENABLE_FFMPEG)
              src/audio_resampler.cpp
     )
 
-    add_library(builtin_modules STATIC ${SRCS} ${HDRS})
+    add_library(builtin_modules SHARED ${SRCS} ${HDRS})
+    set_property(TARGET builtin_modules PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
+    target_link_options(builtin_modules PRIVATE "-sSIDE_MODULE")
+    target_compile_options(builtin_modules PRIVATE "-sSIDE_MODULE")
     target_include_directories(builtin_modules
         PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/bmf/c_modules/include>

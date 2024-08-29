@@ -29,6 +29,9 @@ add_library(bmf_module_sdk
     STATIC
     ${CPP_SRCS} ${CPP_HDRS}
 )
+# set_property(TARGET bmf_module_sdk PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
+# target_link_options(bmf_module_sdk PRIVATE "-sSIDE_MODULE")
+# target_compile_options(bmf_module_sdk PRIVATE "-sSIDE_MODULE")
 endif()
 
 if(WIN32)

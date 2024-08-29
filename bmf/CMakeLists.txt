@@ -3,9 +3,11 @@ add_subdirectory(sdk)
 #add_subdirectory(go_module_sdk) #FIXME: compile failed
 add_subdirectory(engine)
 add_subdirectory(c_modules)
-add_subdirectory(python_modules)
+# add_subdirectory(python_modules)
 # XXX: no go modules now
 #add_subdirectory(go_modules)
+add_subdirectory(test/c_module)
+
 if(BMF_ENABLE_TEST)
     add_subdirectory(test/c_module)
     add_subdirectory(demo/gpu_module)
@@ -14,7 +16,7 @@ if(BMF_ENABLE_TEST)
     endif()
 endif(BMF_ENABLE_TEST)
 
-add_subdirectory(cmd)
+# add_subdirectory(cmd)
 if(HMP_ENABLE_JNI)
     add_subdirectory(java)
 endif()
@@ -162,11 +164,12 @@ if(NOT APPLE AND NOT ANDROID)
                 $<TARGET_FILE_DIR:hmp>/${CMAKE_SHARED_LIBRARY_PREFIX}hmp${CMAKE_SHARED_LIBRARY_SUFFIX} ${BMF_ASSEMBLE_ROOT}/bmf/lib
         )
     else()
-        add_custom_command(TARGET bmf_assem
-            POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                $<TARGET_FILE_DIR:hmp>/${CMAKE_SHARED_LIBRARY_PREFIX}hmp${CMAKE_SHARED_LIBRARY_SUFFIX}* ${BMF_ASSEMBLE_ROOT}/bmf/lib
-        )
+        # TODO:
+        # add_custom_command(TARGET bmf_assem
+        #     POST_BUILD
+        #         COMMAND ${CMAKE_COMMAND} -E copy
+        #         $<TARGET_FILE_DIR:hmp>/${CMAKE_SHARED_LIBRARY_PREFIX}hmp${CMAKE_SHARED_LIBRARY_SUFFIX}* ${BMF_ASSEMBLE_ROOT}/bmf/lib
+        # )
     endif()
 
     if(BMF_ENABLE_JNI)
@@ -193,12 +196,12 @@ if (BMF_LOCAL_DEPENDENCIES)
 endif()
 
 ## python module
-if(TARGET _hmp)
-    add_custom_command(TARGET bmf_assem
-        POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_hmp> ${BMF_ASSEMBLE_ROOT}/bmf/lib
-    )
-endif()
+# if(TARGET _hmp)
+#     add_custom_command(TARGET bmf_assem
+#         POST_BUILD
+#             COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_hmp> ${BMF_ASSEMBLE_ROOT}/bmf/lib
+#     )
+# endif()
 
 add_custom_command(TARGET bmf_assem
     POST_BUILD

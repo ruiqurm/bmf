@@ -563,10 +563,10 @@ void ModuleManager::init() {
 
         // locate BUILTIN_CONFIG.json
         std::vector<std::string> roots;
-        auto lib_path = fs::path(SharedLibrary::this_line_location())
-                            .lexically_normal().parent_path();
-        roots.push_back(lib_path.string());
-        roots.push_back(lib_path.parent_path().string());
+        // auto lib_path = fs::path(SharedLibrary::this_line_location())
+        //                     .lexically_normal().parent_path();
+        // roots.push_back(lib_path.string());
+        // roots.push_back(lib_path.parent_path().string());
         roots.push_back(fs::current_path().string());
 
         auto fn = std::string("BUILTIN_CONFIG.json");
@@ -589,31 +589,33 @@ void ModuleManager::init() {
         inited = true;
         // initialize cpp/py/go loader lazily
     }
-    set_repo_root((fs::path(SharedLibrary::this_line_location())
-                       .lexically_normal()
-                       .parent_path()
-                       .parent_path() /
-                   "cpp_modules")
-                      .string());
-    set_repo_root((fs::path(SharedLibrary::this_line_location())
-                       .lexically_normal()
-                       .parent_path()
-                       .parent_path() /
-                   "python_modules")
-                      .string());
-    set_repo_root((fs::path(SharedLibrary::this_line_location())
-                       .lexically_normal()
-                       .parent_path()
-                       .parent_path() /
-                   "go_modules")
-                      .string());
+    BMFLOG(BMF_ERROR) << "here" << std::endl;
+    // set_repo_root((fs::path(SharedLibrary::this_line_location())
+    //                    .lexically_normal()
+    //                    .parent_path()
+    //                    .parent_path() /
+    //                "cpp_modules")
+    //                   .string());
+    // set_repo_root((fs::path(SharedLibrary::this_line_location())
+    //                    .lexically_normal()
+    //                    .parent_path()
+    //                    .parent_path() /
+    //                "python_modules")
+    //                   .string());
+    // set_repo_root((fs::path(SharedLibrary::this_line_location())
+    //                    .lexically_normal()
+    //                    .parent_path()
+    //                    .parent_path() /
+    //                "go_modules")
+    //                   .string());
     set_repo_root(s_bmf_repo_root.string());
+    BMFLOG(BMF_ERROR) << s_bmf_repo_root.string() << std::endl;
     set_repo_root(fs::current_path().string());
 }
 
 ModuleManager &ModuleManager::instance() {
     static ModuleManager m;
-    return m;
+    return m;   
 }
 
 } // namespace bmf_sdk
