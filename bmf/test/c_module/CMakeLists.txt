@@ -21,11 +21,11 @@ set_property(TARGET PROPERTY CXX_STANDARD 17)
 set(ENV{EMCC_FORCE_STDLIBS} 1)
 add_executable(run_copy_module run_copy_module.cc)
 set(CMAKE_EXECUTABLE_SUFFIX ".html")
-set_target_properties(run_copy_module PROPERTIES LINK_FLAGS "-sMAIN_MODULE=1 --preload-file ${CMAKE_SOURCE_DIR}/big_bunny_10s_30fps.mp4@big_bunny_10s_30fps.mp4 --preload-file ${CMAKE_SOURCE_DIR}/BUILTIN_CONFIG.json@BUILTIN_CONFIG.json --preload-file ${CMAKE_BINARY_DIR}/output/bmf/lib/libbuiltin_modules.so@/lib/libbuiltin_modules.so -sALLOW_MEMORY_GROWTH")
+set_target_properties(run_copy_module PROPERTIES LINK_FLAGS "-sMAIN_MODULE=1 --preload-file ${CMAKE_SOURCE_DIR}/big_bunny_10s_30fps.mp4@big_bunny_10s_30fps.mp4 --preload-file ${CMAKE_SOURCE_DIR}/BUILTIN_CONFIG.json@BUILTIN_CONFIG.json --preload-file /home/sam/bmf/libbuiltin_modules.so@/lib/libbuiltin_modules.so -s USE_PTHREADS=1 -s SHARED_MEMORY=1 -s INITIAL_MEMORY=64MB -sALLOW_MEMORY_GROWTH")
 # set_target_properties(run_copy_module PROPERTIES LINK_FLAGS "-sMAIN_MODULE=1 --preload-file /home/sam/bmf/big_bunny_10s_30fps.mp4@big_bunny_10s_30fps.mp4 --preload-file /home/sam/bmf/BUILTIN_CONFIG.json@BUILTIN_CONFIG.json  -sALLOW_MEMORY_GROWTH")
 target_link_libraries(run_copy_module
 PRIVATE 
-engine bmf_module_sdk nlohmann
+engine bmf_module_sdk hmp nlohmann
 )
 # target_link_options(run_copy_module PRIVATE "-sERROR_ON_UNDEFINED_SYMBOLS=0")
 

@@ -39,7 +39,6 @@ function(module_install)
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/meta/${ARGV0}.info ${BMF_ASSEMBLE_ROOT}/bmf/cpp_modules/Module_${ARGV0}/meta.info
     )
 endfunction()
-
 if(BMF_ENABLE_FFMPEG)
     set(HDRS include/ffmpeg_decoder.h
              include/ffmpeg_encoder.h
@@ -86,7 +85,7 @@ if(BMF_ENABLE_FFMPEG)
             bmf_module_sdk
     )
 
-    set_soname(builtin_modules)
+    # set_soname(builtin_modules)
     mac_update(builtin_modules)
 
 
