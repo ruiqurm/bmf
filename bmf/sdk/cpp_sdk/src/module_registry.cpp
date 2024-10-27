@@ -15,11 +15,21 @@
  */
 
 #include <bmf/sdk/module_registry.h>
-
+#include <emscripten.h>
 BEGIN_BMF_SDK_NS
 ModuleRegistry::ConstructorRegistry &ModuleRegistry::Registry() {
     static ConstructorRegistry *real_registry = new ConstructorRegistry();
-    return *real_registry;
+    ConstructorRegistry *addr = reinterpret_cast<ConstructorRegistry *>(EM_ASM_PTR(
+      {
+        if (!Module["register_map"]) {
+          Module["register_map"] = $0;
+          return $0
+        } else {
+          return Module["register_map"];
+        }
+      },
+      real_registry));
+    return *addr;
 }
 
 void ModuleRegistry::AddConstructor(std::string const &module_name,

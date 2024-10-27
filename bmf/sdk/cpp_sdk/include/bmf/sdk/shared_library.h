@@ -25,6 +25,18 @@
 #include <dlfcn.h>
 
 namespace bmf_sdk {
+#include <emscripten.h>
+EM_JS(void, loadLibrary, (const char *name), {
+      Asyncify.handleAsync(async () => {
+        try {
+          var str = UTF8ToString(name);
+          await loadDynamicLibrary(str, {loadAsync: true, global: true, nodelete: true,fs : FS});
+        }
+        catch(error) {
+          console.log(error);
+        }
+      });
+});
 
 class BMF_SDK_API SharedLibrary {
     std::shared_ptr<void> handler_;
@@ -35,13 +47,14 @@ class BMF_SDK_API SharedLibrary {
     SharedLibrary() = default;
 
     SharedLibrary(const std::string &path, int flags = LAZY) {
-        auto handler = dlopen(path.c_str(), flags);
-        if (!handler) {
-            std::string errstr = "Load library " + path + " failed, ";
-            errstr += dlerror();
-            throw std::runtime_error(errstr);
-        }
-        handler_ = std::shared_ptr<void>(handler, dlclose);
+        loadLibrary(path.c_str());
+        // auto handler = dlopen(path.c_str(), flags);
+        // if (!handler) {
+        //     std::string errstr = "Load library " + path + " failed, ";
+        //     errstr += dlerror();
+        //     throw std::runtime_error(errstr);
+        // }
+        // handler_ = std::shared_ptr<void>(handler, dlclose);
     }
 
     template <typename T> T symbol(const std::string &name) const {
@@ -59,7 +72,7 @@ class BMF_SDK_API SharedLibrary {
     bool is_open() const { return handler_ != nullptr; }
 
     void *raw_symbol(const std::string &name) const {
-        return dlsym(handler_.get(), name.c_str());
+        return dlsym(RTLD_DEFAULT, name.c_str());
     }
 
     static std::string symbol_location(const void *symbol) {

@@ -60,12 +60,20 @@ if(BMF_ENABLE_FFMPEG)
 
     add_library(builtin_modules SHARED ${SRCS} ${HDRS})
     set_property(TARGET builtin_modules PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
-    target_link_options(builtin_modules PRIVATE "-sSIDE_MODULE")
-    target_compile_options(builtin_modules PRIVATE "-sSIDE_MODULE")
+    target_link_options(builtin_modules PRIVATE "-sSIDE_MODULE=2")
+    target_compile_options(builtin_modules PRIVATE "-sSIDE_MODULE=2")
     target_include_directories(builtin_modules
         PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/bmf/c_modules/include>
     )
+
+    find_library(X264_LIB x264 PATHS /home/sam/ffmpeg.build/build/output/lib)
+    if(X264_LIB)
+      message(STATUS "Found x264: ${X264_LIB}")
+    else()
+        message(FATAL_ERROR "x264 library not found!")
+    endif()
+
     if(WIN32)
         set_target_properties(builtin_modules PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY ${BMF_ASSEMBLE_ROOT}/bmf/lib
@@ -81,6 +89,7 @@ if(BMF_ENABLE_FFMPEG)
 
     target_link_libraries(builtin_modules
         PRIVATE
+            ${X264_LIB}
             ${BMF_FFMPEG_TARGETS}
             bmf_module_sdk
     )

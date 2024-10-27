@@ -41,6 +41,7 @@ if(WIN32)
         RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BMF_ASSEMBLE_ROOT}/bmf/lib
     )
 endif()
+set_target_properties(bmf_module_sdk PROPERTIES LINK_FLAGS "-s ASYNCIFY -s 'ASYNCIFY_IMPORTS=[\"loadLibrary\"]'")
 
 target_include_directories(bmf_module_sdk
     PUBLIC

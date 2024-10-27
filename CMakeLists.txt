@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(BMF CXX C)
 ### options
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if (NOT APPLE)
     set(BMF_PYENV 3.7 CACHE STRING "Python version, ie. 3.6, 3.7, 3.8")
 else ()
@@ -65,7 +66,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         set(CMAKE_CXX_FLAGS "-D__STDC_FORMAT_MACROS -Wno-deprecated-declarations -Wl,-z,defs ${CMAKE_COVERAGE_FLAGS} ${CMAKE_CXX_FLAGS}") #report unresolved symbols
     endif()
 endif()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions -fPIC -s USE_PTHREADS=1 -s SHARED_MEMORY=1")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions -fPIC -s USE_PTHREADS=1 -s SHARED_MEMORY=1")
+set(CMAKE_CXX_FLAGS "-g ${CMAKE_CXX_FLAGS} -fPIC -s USE_PTHREADS=1 -s SHARED_MEMORY=1")
+
 set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -128,19 +131,18 @@ add_subdirectory(bmf)
 ## set (CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGSa} -Wl,--export-dynamic")
 
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+### print build configurations
+include(cmake/summary.cmake)
+
 execute_process(COMMAND ${CMAKE_CXX_COMPILER} --cflags
     OUTPUT_VARIABLE EM_CFLAGS
     COMMAND_ERROR_IS_FATAL ANY
 )
 string(STRIP "${EM_CFLAGS}" EM_CFLAGS)
 find_package(Python3 REQUIRED)
-message("Python: ${Python3_EXECUTABLE}")
+message("Python: ${Python3_EXECUTABLE} EXTRA_FLAGS = ${EM_CFLAGS}")
 set(ENV{EXTRA_FLAGS} "${EM_CFLAGS}")
 execute_process(
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/fix_compile_commands.py --watcher
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/fix_compile_commands.py
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
-
-### print build configurations
-include(cmake/summary.cmake)

@@ -18,6 +18,7 @@ source ./version.sh
 
 source ../emsdk/emsdk_env.sh
 mkdir -p build && cd build
+export FFMPEG_ROOT_PATH=/home/sam/ffmpeg.build/build/output
 emcmake cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DCOVERAGE=${COVERAGE_OPTION} \
     -DBMF_LOCAL_DEPENDENCIES=${LOCAL_BUILD} \
